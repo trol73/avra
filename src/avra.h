@@ -29,6 +29,7 @@
 #define _AVRA_H_
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <time.h>
 
 #ifndef VER_MAJOR
@@ -38,13 +39,13 @@
 #  define VER_MINOR 3
 #endif
 #ifndef VER_RELEASE
-#  define VER_RELEASE 0
+#  define VER_RELEASE 1
 #endif
 #ifndef VER_BUILD
 #  define VER_BUILD 1
 #endif
 #ifndef VER_DATE
-#  define VER_DATE    "8 May 2010"
+#  define VER_DATE    "5 Nov 2016"
 #endif
 
 #define IS_HOR_SPACE(x)	((x == ' ') || (x == 9))
@@ -164,6 +165,7 @@ struct prog_info
 	/* Warning additions */
 	int NoRegDef;
 	int pass;
+	bool pragma_warning_showed;
 	
 };
 

@@ -39,7 +39,7 @@
 
 const char *title =
   "AVRA: advanced AVR macro assembler Version %i.%i.%i Build %i (%s)\n"
-  "Copyright (C) 1998-2010. Check out README file for more info\n"
+  "Copyright (C) 1998-2017. Check out README file for more info\n"
   "\n"
   "   AVRA is an open source assembler for Atmel AVR microcontroller family\n"
   "   It can be used as a replacement of 'AVRASM32.EXE' the original assembler\n"
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
   }
 #endif
 
-  printf(title, VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BUILD, VER_DATE);
+  //printf(title, VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BUILD, VER_DATE);
 
   args = alloc_args(ARG_COUNT);
   if(args) {
@@ -143,6 +143,7 @@ int main(int argc, char *argv[])
 	printf("\n");
   }
   if(show_usage) {
+  	printf(title, VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BUILD, VER_DATE);
 	printf("%s", usage);
   }
   exit(EXIT_SUCCESS);
@@ -393,7 +394,9 @@ void print_msg(struct prog_info *pi, int type, char *fmt, ... )
 		}
 		if(fmt != NULL) {
 			va_list args;
-			va_start(args, fmt);			vfprintf(stderr, fmt, args);			va_end(args);
+			va_start(args, fmt);
+			vfprintf(stderr, fmt, args);
+			va_end(args);
 		}
 
 		if( (type != MSGTYPE_APPEND) && (type != MSGTYPE_MESSAGE_NO_LF) )  /* B.A. Added for .message directive */

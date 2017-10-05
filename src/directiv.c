@@ -546,7 +546,10 @@ int parse_directive(struct prog_info *pi)
 			may_do_something_with_pragma_someday();
 #else
 			// if ( !flag_no_warnings )
-			print_msg(pi, MSGTYPE_MESSAGE, "PRAGMA directives currently ignored");
+			if (!pi->pragma_warning_showed) {
+				print_msg(pi, MSGTYPE_MESSAGE, "PRAGMA directives currently ignored");
+				pi->pragma_warning_showed = true;
+			}
 #endif
 			break;
 		case DIRECTIVE_UNDEF: // TODO
