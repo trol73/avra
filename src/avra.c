@@ -84,10 +84,10 @@ int main(int argc, char *argv[])
   unsigned char c;
 
 #if debug == 1
-  int i;
-  for(i = 0; i < argc; i++) {
-    printf(argv[i]);
-    printf("\n");
+  //int i;
+  for(int i = 0; i < argc; i++) {
+    printf("arg %i: %s\n", i, argv[i]);
+    //printf("\n");
   }
 #endif
 
@@ -114,7 +114,6 @@ int main(int argc, char *argv[])
 
 
     c = read_args(args, argc, argv);
-    
     if(c != 0) {
 	  if(!GET_ARG(args, ARG_HELP) && (argc != 1))	{
 	    if(!GET_ARG(args, ARG_VER)) {
@@ -221,7 +220,27 @@ int assemble(struct prog_info *pi) {
 				return -1;
 			if(predef_dev(pi)==False)	/* B.A.: Now with error check */
 				return -1;
-			c = open_out_files(pi, pi->args->first_data->data);
+			char* fileNameFromCmdline = GET_ARG(pi->args, ARG_OUTFILE);
+			char* fileName = NULL;
+			if (fileNameFromCmdline) {
+				int len = strlen(fileNameFromCmdline);
+				if (len > 0) {
+					if (len > 3 && fileNameFromCmdline[len-4] == '.') {
+						fileNameFromCmdline[len-4] = 0;
+						len = strlen(fileNameFromCmdline);
+						if (len > 0) {
+							fileName = fileNameFromCmdline;
+						}
+					} else {
+						fileName = fileNameFromCmdline;
+					}
+				}
+			}
+			if (!fileName) {
+				fileName = pi->args->first_data->data;
+			}
+
+			c = open_out_files(pi, fileName);
 			if(c != 0) {
 				printf("Pass 2...\n");
 				parse_file(pi, (char *)pi->args->first_data->data);
