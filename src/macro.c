@@ -200,7 +200,8 @@ int read_macro(struct prog_info *pi, char *name)
 					strcpy(macro_line->line, &pi->fi->buff[start]);
 				}
 			}
-			else if(pi->fi->buff && pi->list_file && pi->list_on) {
+			//else if(pi->fi->buff && pi->list_file && pi->list_on) {
+			else if(pi->list_file && pi->list_on) {
 				if(pi->fi->buff[i] == ';')
 					fprintf(pi->list_file, "         %s\n", pi->fi->buff);
 				else

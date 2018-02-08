@@ -35,7 +35,7 @@
 #include "avra.h"
 #include "device.h"
 
-#define debug 0
+//#define debug 1
 
 const char *title =
   "AVRA: advanced AVR macro assembler Version %i.%i.%i Build %i (%s)\n"

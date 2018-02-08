@@ -163,10 +163,11 @@ int parse_file(struct prog_info *pi, char *filename)
 	while(loopok && !fi->exit_file) {
 		if(fgets_new(pi,fi->buff, LINEBUFFER_LENGTH, fi->fp)) {
 			fi->line_number++;
-			pi->list_line = fi->buff;
+			pi->list_line = fi->buff;			
 			ok = parse_line(pi, fi->buff);
 #if debug == 1
 		        printf("parse_line was %i\n", ok);
+		        printf("> %s\n", fi->buff);
 #endif
 			if(ok) {
 				if((pi->pass == PASS_2) && pi->list_line && pi->list_on)
@@ -268,8 +269,8 @@ int parse_line(struct prog_info *pi, char *line)
 
 	strcpy(pi->fi->scratch,line);
 
-	for(i = 0; IS_LABEL(pi->fi->scratch[i]) || (pi->fi->scratch[i] == ':'); i++)
-		if(pi->fi->scratch[i] == ':') {	/* it is a label */
+	for(i = 0; IS_LABEL(pi->fi->scratch[i]) || (pi->fi->scratch[i] == ':'); i++) {
+		if(pi->fi->scratch[i] == ':') {	// it is a label
 			pi->fi->scratch[i] = '\0';
 			if(pi->pass == PASS_1) {
 				for(macro_call = pi->macro_call; macro_call; macro_call = macro_call->prev_on_stack) {
@@ -290,7 +291,7 @@ int parse_line(struct prog_info *pi, char *line)
 				if(!label) {
 					print_msg(pi, MSGTYPE_OUT_OF_MEM, NULL);
 					return(False);
-				}
+				}			
 				label->next = NULL;
 				label->name = malloc(strlen(&pi->fi->scratch[0]) + 1);
 				if(!label->name) {
@@ -332,10 +333,13 @@ int parse_line(struct prog_info *pi, char *line)
 				}
 				return(True);
 			}
-			strcpy(pi->fi->scratch, &pi->fi->scratch[i]);
+			char tmp[LINEBUFFER_LENGTH];
+			strcpy(tmp, &pi->fi->scratch[i]);
+			strcpy(pi->fi->scratch, tmp);
+			//strcpy(pi->fi->scratch, &pi->fi->scratch[i]);		this command causes crash !!!
 			break;
 		}
-
+	}
 #if 0
 	if(pi->fi->scratch[0] == '.') {
 #else

@@ -4,7 +4,7 @@ src = [
    'src/*.c',
 ]
 
-defines = []
+defines = ['debug=0']
 
 compiler_options = ['-g2']
 
